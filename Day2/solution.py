@@ -1,17 +1,24 @@
 
-from typing import Tuple
+from typing import List, Tuple
 
-count = [0]*2
+count = [0]*3
 
 
-def parse(line: str) -> Tuple[int, int]:
+def apply(line: str, count: List[int]) -> Tuple[int, int]:
     d, m = line.split(sep=' ')  # direction and magnitude
+    d = d[0]
+    m = int(m)
 
-    return (0 if d[0] == 'f' else 1, -int(m) if d[0] == 'u' else int(m))
+    if d == 'd':
+        count[2] += m
+    elif d == 'u':
+        count[2] -= m
+    elif d == 'f':
+        count[0] += m
+        count[1] += count[2] * m
 
 
 for line in open('input', 'r'):
-    d, m = parse(line) # direction and magnitude
-    count[d] += m
+    apply(line, count)
 
 print(f'Product is : {count[0]*count[1]}')
